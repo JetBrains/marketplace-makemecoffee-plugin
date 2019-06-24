@@ -1,0 +1,25 @@
+<idea-plugin>
+    <id>com.marketplace.makeMeCoffee</id>
+    <name>MakeMeCoffee</name>
+    <vendor email="marketplace@jetbrains.com" url="https://plugins.jetbrains.com/marketplace">Marketplace</vendor>
+
+    <product-descriptor code="PMAKECOFFEE" release-date="20190625" release-version="20191"/>
+    <idea-version since-build="183"/>
+
+    <description>Remember all those times when you would say: "Good IDE, the only thing missing is a 'Make Coffee' button."?
+    Well, today is a brew-tiful day for coffee addicts! At JetBrains, we give a Frappe about our customer's Irishs,
+    with this very little (20Kb) plugin you can finally brew that Caramel-Skinny-Vanilla-de-caff-Macchiato right from the IDE's toolbar</description>
+
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+
+    </extensions>
+
+    <actions>
+        <action id="actions.MakeCoffeeAction" class="actions.MakeCoffeeAction" icon="MakeCoffeeIcons.STRUCTURE_TOOL_WINDOW">
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
