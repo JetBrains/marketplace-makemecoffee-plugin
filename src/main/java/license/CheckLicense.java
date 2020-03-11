@@ -1,8 +1,8 @@
-package license;
+package com.company.license;
 
-import com.intellij.openapi.application.PermanentInstallationID;
 import com.intellij.ui.LicensingFacade;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -10,13 +10,9 @@ import java.security.Signature;
 import java.security.cert.*;
 import java.util.*;
 
-/**
- * @author Eugene Zhuravlev
- * Date: 26-Jul-18
- */
 public class CheckLicense {
   /**
-   * PRODUCT_CODE must be the same specified in plugin.xml inside the <productCode> tag
+   * PRODUCT_CODE must be the same specified in plugin.xml inside the <product-descriptor> tag
    */
   private static final String PRODUCT_CODE = "PMAKECOFFEE";
   private static final String KEY_PREFIX = "key:";
@@ -160,6 +156,7 @@ public class CheckLicense {
       return licenseData.contains("\"licenseId\":\"" + licenseId + "\"");
     }
     catch (Throwable ignored) {
+      ignored.printStackTrace();
     }
     return false;
   }
@@ -169,13 +166,14 @@ public class CheckLicense {
       final String[] parts = serverStamp.split(":");
       final Base64.Decoder base64 = Base64.getMimeDecoder();
 
-      final long timeStamp = Long.parseLong(parts[0]);
-      final String machineId = parts[1];
-      final String signatureType = parts[2];
-      final byte[] signatureBytes = base64.decode(parts[3].getBytes(StandardCharsets.UTF_8));
-      final byte[] certBytes = base64.decode(parts[4].getBytes(StandardCharsets.UTF_8));
+      final String expectedMachineId = parts[0];
+      final long timeStamp = Long.parseLong(parts[1]);
+      final String machineId = parts[2];
+      final String signatureType = parts[3];
+      final byte[] signatureBytes = base64.decode(parts[4].getBytes(StandardCharsets.UTF_8));
+      final byte[] certBytes = base64.decode(parts[5].getBytes(StandardCharsets.UTF_8));
       final Collection<byte[]> intermediate = new ArrayList<byte[]>();
-      for (int idx = 5; idx < parts.length; idx++) {
+      for (int idx = 6; idx < parts.length; idx++) {
         intermediate.add(base64.decode(parts[idx].getBytes(StandardCharsets.UTF_8)));
       }
 
@@ -185,12 +183,11 @@ public class CheckLicense {
       // expiration. Expired certificates from a license server cannot be trusted
       sig.initVerify(createCertificate(certBytes, intermediate, true));
 
-      sig.update((parts[0] + ":" + parts[1]).getBytes(StandardCharsets.UTF_8));
+      sig.update((timeStamp + ":" + machineId).getBytes(StandardCharsets.UTF_8));
       if (sig.verify(signatureBytes)) {
-        final String thisMachineId = PermanentInstallationID.get();
         // machineId must match the machineId from the server reply and
         // server reply should be relatively 'fresh'
-        return thisMachineId.equals(machineId) && Math.abs(System.currentTimeMillis() - timeStamp) < TIMESTAMP_VALIDITY_PERIOD_MS;
+        return expectedMachineId.equals(machineId) && Math.abs(System.currentTimeMillis() - timeStamp) < TIMESTAMP_VALIDITY_PERIOD_MS;
       }
     }
     catch (Throwable ignored) {
@@ -244,5 +241,6 @@ public class CheckLicense {
     }
     throw new Exception ("Certificate used to sign the license is not signed by JetBrains root certificate");
   }
+
 
 }
