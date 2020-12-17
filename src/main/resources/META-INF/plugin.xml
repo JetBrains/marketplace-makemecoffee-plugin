@@ -3,7 +3,15 @@
     <name>MakeMeCoffee</name>
     <vendor email="marketplace@jetbrains.com" url="https://plugins.jetbrains.com/marketplace">Marketplace</vendor>
 
-    <product-descriptor code="PMAKECOFFEE" release-date="20190625" release-version="20191"/>
+  <!--
+   The plugin may be registered with or without 'optional' attribute. The default value is "false".
+   With optional attribute the IDE will not insist on a license on startup and plugin will be loaded.
+   Instead, it is up to plugin to decide what functionality requires a license.
+   When 'paid' functionality is called, plugin can check if the license is obtained and if not, request to enter one.
+   Just comment the 'optional' attribute to have IDE always require license for the plugin.
+  -->
+    <product-descriptor code="PMAKECOFFEE" release-date="20190625" release-version="20191" optional="true"/>
+
     <idea-version since-build="183"/>
 
     <description>Remember all those times when you would say: "Good IDE, the only thing missing is a 'Make Coffee' button."?
