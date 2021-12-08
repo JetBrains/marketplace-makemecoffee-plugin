@@ -123,10 +123,10 @@ public class CheckLicense {
 
   public static void requestLicense(final String message) {
     // ensure the dialog is appeared from UI thread and in a non-modal context
-    ApplicationManager.getApplication().invokeLater(() -> showRegisterDialog(message), ModalityState.NON_MODAL);
+    ApplicationManager.getApplication().invokeLater(() -> showRegisterDialog("PMAKECOFFEE", message), ModalityState.NON_MODAL);
   }
   
-  private static void showRegisterDialog(final String message) {
+  private static void showRegisterDialog(final String productCode, final String message) {
     final com.intellij.openapi.actionSystem.ActionManager actionManager = com.intellij.openapi.actionSystem.ActionManager.getInstance();
     // first, assume we are running inside the opensource version
     AnAction registerAction = actionManager.getAction("RegisterPlugins");
@@ -135,7 +135,7 @@ public class CheckLicense {
       registerAction = actionManager.getAction("Register");
     }
     if (registerAction != null) {
-      registerAction.actionPerformed(AnActionEvent.createFromDataContext("", new Presentation(), asDataContext(message)));
+      registerAction.actionPerformed(AnActionEvent.createFromDataContext("", new Presentation(), asDataContext(productCode, message)));
     }
   }
 
@@ -144,11 +144,11 @@ public class CheckLicense {
   // - productCode: the product corresponding to the passed productCode will be pre-selected in the opened dialog
   // - message: optional message explaining the reason why the dialog has been shown
   @NotNull
-  private static DataContext asDataContext(@Nullable String message) {
+  private static DataContext asDataContext(final String productCode, @Nullable String message) {
     return dataId -> {
       switch (dataId) {
         // the same code as registered in plugin.xml, 'product-descriptor' tag
-        case "register.product-descriptor.code" : return "PMAKECOFFEE";
+        case "register.product-descriptor.code" : return productCode;
 
         // optional message to be shown in the registration dialog that appears
         case "register.message" : return message;
