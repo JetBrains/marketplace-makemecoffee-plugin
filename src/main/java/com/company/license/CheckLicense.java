@@ -98,10 +98,16 @@ public class CheckLicense {
   private static final long TIMESTAMP_VALIDITY_PERIOD_MS = 1 * HOUR;  // configure period that suits your needs better
 
 
-  public static boolean isLicensed() {
+  /**
+   * @return TRUE if licensed, FALSE otherwise.
+   * Null return value means the LicensingFacade object is not initialized yet => one cannot say for sure does a valid license for the plugin exist or not.
+   * The interpretation of the null value is up to plugin.
+   */
+  @Nullable
+  public static Boolean isLicensed() {
     final LicensingFacade facade = LicensingFacade.getInstance();
     if (facade == null) {
-      return false;
+      return null;
     }
     final String cstamp = facade.getConfirmationStamp(PRODUCT_CODE);
     if (cstamp == null) {

@@ -15,7 +15,7 @@ public class MakeCoffeeAction extends AnAction {
   }
 
   public void actionPerformed(@NotNull AnActionEvent event) {
-    final boolean isLicensed = CheckLicense.isLicensed();
+    final Boolean isLicensed = CheckLicense.isLicensed();
     Frame frame = JOptionPane.getRootFrame();
     
     Object[] cities = {
@@ -69,7 +69,7 @@ public class MakeCoffeeAction extends AnAction {
       );
 
       if (coffeeType != null && coffeeType.length() > 0) {
-        if (isLicensed) {
+        if (Boolean.TRUE.equals(isLicensed)) {
           final String message = "The " + coffeeType + " is being prepared in JetBrains " + city + " office.\n" +
             "Thank you and welcome to the JetBrains Marketplace!";
           JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), message, TITLE, JOptionPane.INFORMATION_MESSAGE);
