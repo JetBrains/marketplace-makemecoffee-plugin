@@ -10,9 +10,9 @@
    When 'paid' functionality is called, plugin can check if the license is obtained and if not, request to enter one.
    Just comment the 'optional' attribute to have IDE always require license for the plugin.
   -->
-    <product-descriptor code="PMAKECOFFEE" release-date="20190625" release-version="20191" optional="true"/>
+    <product-descriptor code="PMAKECOFFEE" release-date="20231101" release-version="20232" optional="true"/>
 
-    <idea-version since-build="183"/>
+    <idea-version since-build="232"/>
 
     <description>Remember all those times when you would say: "Good IDE, the only thing missing is a 'Make Coffee' button."?
     Well, today is a brew-tiful day for coffee addicts! At JetBrains, we give a Frappe about our customer's Irishs,
@@ -22,12 +22,13 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-
     </extensions>
 
     <actions>
         <action id="actions.MakeCoffeeAction" class="actions.MakeCoffeeAction" icon="MakeCoffeeIcons.STRUCTURE_TOOL_WINDOW">
             <add-to-group group-id="MainToolBar" anchor="last"/>
+            <add-to-group group-id="MainToolbarRight" anchor="last"/>
         </action>
     </actions>
+
 </idea-plugin>
