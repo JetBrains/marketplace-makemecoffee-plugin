@@ -14,8 +14,9 @@ repositories {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     updateSinceUntilBuild.set(false)
-    version.set("IC-2023.2")
+    version.set("LATEST-EAP-SNAPSHOT")
 }
+
 tasks {
     patchPluginXml {
         changeNotes.set("""
@@ -27,6 +28,6 @@ tasks {
     }
 
     runPluginVerifier {
-        ideVersions.add("IC-2023.2")
+        ideVersions.add("LATEST-EAP-SNAPSHOT")
     }
 }
