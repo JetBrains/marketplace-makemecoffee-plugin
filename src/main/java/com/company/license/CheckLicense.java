@@ -127,9 +127,9 @@ public class CheckLicense {
 
   public static void requestLicense(final String message) {
     // ensure the dialog is appeared from UI thread and in a non-modal context
-    ApplicationManager.getApplication().invokeLater(() -> showRegisterDialog("PMAKECOFFEE", message), ModalityState.NON_MODAL);
+    ApplicationManager.getApplication().invokeLater(() -> showRegisterDialog("PMAKECOFFEE", message), ModalityState.nonModal());
   }
-  
+
   private static void showRegisterDialog(final String productCode, final String message) {
     final com.intellij.openapi.actionSystem.ActionManager actionManager = com.intellij.openapi.actionSystem.ActionManager.getInstance();
     // first, assume we are running inside the opensource version
@@ -149,16 +149,13 @@ public class CheckLicense {
   // - message: optional message explaining the reason why the dialog has been shown
   @NotNull
   private static DataContext asDataContext(final String productCode, @Nullable String message) {
-    return dataId -> {
-      switch (dataId) {
+    return dataId -> switch (dataId) {
         // the same code as registered in plugin.xml, 'product-descriptor' tag
-        case "register.product-descriptor.code" : return productCode;
+        case "register.product-descriptor.code" -> productCode;
 
         // optional message to be shown in the registration dialog that appears
-        case "register.message" : return message;
-        
-        default: return null;
-      }
+        case "register.message" -> message;
+        default -> null;
     };
   }
 
