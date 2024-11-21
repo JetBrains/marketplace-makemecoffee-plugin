@@ -140,6 +140,8 @@ public class CheckLicense {
     }
     if (registerAction != null) {
       ActionUtil.performActionDumbAwareWithCallbacks(registerAction, AnActionEvent.createEvent(asDataContext(productCode, message), new Presentation(), "", ActionUiKind.NONE, null));
+      // This API is available starting from IDE version 243.*.
+      // For older IDE versions, use: registerAction.actionPerformed(AnActionEvent.createFromDataContext("", new Presentation(), asDataContext(productCode, message)))
     }
   }
 
