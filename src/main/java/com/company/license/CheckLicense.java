@@ -21,7 +21,6 @@ public class CheckLicense {
   private static final String PRODUCT_CODE = "PMAKECOFFEE";
   private static final String KEY_PREFIX = "key:";
   private static final String STAMP_PREFIX = "stamp:";
-  private static final String EVAL_PREFIX = "eval:";
 
   /**
    * Public root certificates needed to verify JetBrains-signed licenses
@@ -119,9 +118,6 @@ public class CheckLicense {
       // licensed via ticket obtained from JetBrains Floating License Server
       return isLicenseServerStampValid(cstamp.substring(STAMP_PREFIX.length()));
     }
-    if (cstamp.startsWith(EVAL_PREFIX)) {
-      return isEvaluationValid(cstamp.substring(EVAL_PREFIX.length()));
-    }
     return false;
   }
 
@@ -159,17 +155,6 @@ public class CheckLicense {
         case "register.message" -> message;
         default -> null;
     };
-  }
-
-  private static boolean isEvaluationValid(String expirationTime) {
-    try {
-      final Date now = new Date();
-      final Date expiration = new Date(Long.parseLong(expirationTime));
-      return now.before(expiration);
-    }
-    catch (NumberFormatException e) {
-      return false;
-    }
   }
 
   private static boolean isKeyValid(String key) {
@@ -287,6 +272,5 @@ public class CheckLicense {
     }
     throw new Exception ("Certificate used to sign the license is not signed by JetBrains root certificate");
   }
-
 
 }
