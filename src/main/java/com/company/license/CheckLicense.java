@@ -123,7 +123,7 @@ public class CheckLicense {
 
   public static void requestLicense(final String message) {
     // ensure the dialog is appeared from UI thread and in a non-modal context
-    ApplicationManager.getApplication().invokeLater(() -> showRegisterDialog("PMAKECOFFEE", message), ModalityState.nonModal());
+    ApplicationManager.getApplication().invokeLater(() -> showRegisterDialog(PRODUCT_CODE, message), ModalityState.nonModal());
   }
 
   private static void showRegisterDialog(final String productCode, final String message) {
@@ -272,5 +272,4 @@ public class CheckLicense {
     }
     throw new Exception ("Certificate used to sign the license is not signed by JetBrains root certificate");
   }
-
 }
